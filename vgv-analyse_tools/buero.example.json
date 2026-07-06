@@ -18,6 +18,7 @@
     "cad_system": "Allplan",
     "dokumentenmanagement": "Lokaler Server",
     "projektordner_hauptpfad": "K:\\Projekte",
+    "referenzdatenbank": null,
     "primary_color": "#000000",
     "secondary_color": "#FFFFFF"
   }

@@ -52,6 +52,7 @@ Frage den Nutzer interaktiv ab:
 - Angebotene Leistungsphasen
 - Logo-Pfad
 - Branding-Farben
+- Pfad zur buero-weiten Referenzdatenbank (optional, falls vorhanden - sonst leer lassen)
 
 Speichere die Antworten in `<USER-HOME>/.claude/buero.json` (so muss der User es nur EINMAL ausfuellen, fuer alle zukuenftigen VGV-Analysen).
 
@@ -67,7 +68,18 @@ Speichere die Antworten in `<USER-HOME>/.claude/buero.json` (so muss der User es
 - **Wichtig**: Machbarkeitsstudien VOLLSTAENDIG lesen (Schritt 1b-KRITISCH in der ANLEITUNG)
 - Wende rollenspezifische Anweisungen aus dem geladenen Profil an
 
-### Schritt 4: Output erstellen
+### Schritt 4: Referenz-Matching (falls Referenzdatenbank konfiguriert)
+
+Falls in `buero.json` das Feld `buero.referenzdatenbank` gesetzt und der Pfad erreichbar ist:
+
+- Fuehre nach der Referenzanalyse das Referenz-Matching gemaess `vgv-analyse_tools/ANLEITUNG.md` Schritt 4e durch
+- Ein Matching-Agent schlaegt pro geforderter Referenz die besten Kandidaten aus der Datenbank vor, inkl. empfohlenem Zuschnitt (welche LPH darstellen, welche Kostenbasis, welches Narrativ)
+- **Verhaltensregel:** Zuschnitt innerhalb der Fakten ist erlaubt (Auswahl/Betonung real erbrachter Leistungen), Faktenaenderung ist verboten. Grenzfaelle werden markiert, nicht entschieden. Details in ANLEITUNG.md Schritt 4e.
+- Ergebnis wird als eigene Sektion "Referenz-Empfehlungen" in die HTML-Analyse integriert
+
+Falls das Feld fehlt, `null` ist oder der Pfad nicht erreichbar (z.B. Netzlaufwerk nicht verbunden): Schritt ueberspringen und im Bericht kurz vermerken.
+
+### Schritt 5: Output erstellen
 
 - Erstelle die HTML-Analyse in `<Projekt-Root>/Claude/VGV-Analyse/VGV_Analyse_{YYYY-MM-DD}.html`
 - Standalone HTML mit Branding aus `buero.json`
@@ -108,5 +120,7 @@ Falls in `buero.json` ein noch nicht abgedecktes Leistungsbild steht:
 
 - Outputs ausserhalb von `<Projekt-Root>/Claude/` schreiben
 - Vertragsklauseln oder Honoraransaetze erfinden
+- Referenz-Fakten veraendern oder erfinden (Kosten, Flaechen, LPH, Termine, Bauherr) - Zuschnitt ja, Faktenaenderung nie
+- In die Referenzdatenbank schreiben (sie ist fuer diesen Skill strikt read-only)
 - Rechtsberatung erteilen (du bist Tool, nicht Anwalt - immer Hinweis im Bericht)
 - Marcels Buero-Daten verwenden falls eine andere buero.json vorhanden ist

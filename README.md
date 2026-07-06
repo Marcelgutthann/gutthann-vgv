@@ -18,11 +18,20 @@ Und erzeugt eine **Standalone-HTML-Analyse** mit:
 - Vertragsklauseln-Bewertung (Risiko-Ampel)
 - Honorar-Plausibilitaet
 - Referenz-Eignung (kannst du die Referenz erfuellen?)
+- Referenz-Empfehlungen aus der Buero-Referenzdatenbank (optional, ab v1.1)
 - Risiken pro Rolle (rollenspezifisch)
 - Verhandlungs-Empfehlungen
 - Empfehlung: Teilnahme ja/nein
 
 Output: `<Projekt-Root>/Claude/VGV-Analyse/VGV_Analyse_YYYY-MM-DD.html`
+
+## Referenz-Matching (ab v1.1, optional)
+
+Wenn in der `buero.json` ein Pfad zu einer buero-weiten Referenzdatenbank hinterlegt ist (`"referenzdatenbank": "N:\\...\\Referenzdatenbank"`), schlaegt der Skill nach der Analyse der Referenzanforderungen automatisch die passendsten eigenen Projekte als Referenzen vor - inklusive empfohlenem Zuschnitt (welche Leistungsphasen darstellen, welche Kostenbasis, welches Narrativ), wie es Projektleiter beim "Zurechtlegen" von Referenzen auch tun.
+
+Dabei gelten harte Regeln: Auswahl und Betonung real erbrachter Leistungen ist erlaubt, Faktenaenderung (Kosten, Flaechen, LPH, Termine) ist verboten, Grenzfaelle werden zur Ruecksprache markiert. Die Datenbank wird nur gelesen, nie beschrieben.
+
+Erwartete Datenbank-Struktur: ein Ordner mit `SCHEMA.md`, `INDEX.md`, `projekte\*.md` (YAML-Frontmatter + Prosa), optional `referenz-instanzen\` und `verfahren\` (Anpassungshistorie frueherer Bewerbungen). Ohne konfigurierte Datenbank wird der Schritt einfach uebersprungen.
 
 ## Universell fuer jedes Architekturbuero
 

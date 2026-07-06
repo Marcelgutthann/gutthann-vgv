@@ -203,6 +203,61 @@ Fuer JEDE geforderte Referenz:
 - Ist Eignungsleihe moeglich/erwaehnt?
 - Bewerbergemeinschaften zulaessig?
 
+### 4e. Referenz-Matching aus der Referenzdatenbank (falls konfiguriert)
+
+**Voraussetzung:** In `buero.json` ist das Feld `buero.referenzdatenbank` gesetzt (Pfad zu einer buero-weiten Referenzdatenbank).
+
+- Falls das Feld fehlt: frage den Nutzer einmalig "Gibt es eine buero-weite Referenzdatenbank? Falls ja, Pfad angeben - falls nein, 'nein'." Speichere die Antwort in `buero.json` (`referenzdatenbank: "<pfad>"` oder `null`), damit die Frage nie wieder kommt.
+- Falls `null` oder der Pfad nicht erreichbar ist (z.B. Netzlaufwerk nicht verbunden): Schritt ueberspringen, in der HTML-Analyse kurz vermerken ("Referenz-Matching uebersprungen - keine Referenzdatenbank verfuegbar").
+- **Die Referenzdatenbank ist strikt read-only.** Du schreibst dort NIEMALS hinein.
+
+**Datenbank lesen (in dieser Reihenfolge):**
+1. `SCHEMA.md` und `INDEX.md` im Datenbank-Ordner lesen. SCHEMA.md definiert Felder und kontrollierte Vokabulare - verlass dich auf SCHEMA.md, nicht auf Annahmen aus dieser Anleitung, die Struktur kann sich weiterentwickeln.
+2. Kandidaten-Suche per Grep ueber `projekte\*.md` (YAML-Frontmatter: gebaeudekategorie, leistungsart, themen, kostenklasse, lph_umfang, ag_typ, Flaechen, Kosten, Termine).
+3. Fuer die Kandidaten: `referenz-instanzen\` lesen (wie wurde das Projekt in frueheren Verfahren positioniert) und `verfahren\` (mit welchem Ausgang: zusage/absage/praesentation).
+4. Falls die Datenbank erst teilweise aufgebaut ist (z.B. `referenz-instanzen\` noch leer): mit `projekte\*.md` arbeiten und im Bericht vermerken, dass die Anpassungshistorie noch nicht verfuegbar ist.
+
+**Matching-Agent starten:**
+Starte einen Subagenten (Task-Tool) mit einem in sich vollstaendigen Auftrag. Falls Subagenten nicht verfuegbar sind, fuehre das Matching direkt aus. Der Auftrag enthaelt:
+- Die in 4b extrahierten Referenzanforderungen (Mindest- und Bonuskriterien, Punktesystem, Anzahl geforderter Referenzen, ggf. unterschiedliche Anforderungen je Referenz)
+- Den Projektsteckbrief des neuen Verfahrens (aus Schritt 5): Bauaufgabe, Nutzung, Kostenrahmen, LPH-Umfang, AG-Typ, Besonderheiten
+- Den Pfad zur Referenzdatenbank und die Verhaltensregeln unten
+
+**Verhalten des Matching-Agents (VERBINDLICH):**
+
+Architekten und Projektleiter legen Referenzen fuer ein neues Verfahren "zurecht" - sie waehlen aus und betonen, was zum Verfahren passt. Der Agent bildet genau dieses Verhalten ab, aber ausschliesslich innerhalb der dokumentierten Fakten:
+
+**ERLAUBT (Zuschnitt):**
+- Projekt-Bezeichnung auf das Verfahren zuschneiden (z.B. "Generalsanierung und Erweiterung Grundschule X bei laufendem Betrieb" statt internem Kurznamen) - solange faktentreu
+- Auswahl, WELCHE der tatsaechlich erbrachten Leistungsphasen dargestellt werden (dargestellte LPH muessen eine Teilmenge der erbrachten LPH sein)
+- Wahl der dokumentierten Kostenbasis (KG 300+400 vs. Gesamtkosten KG 200-700), passend zu dem, was das Verfahren abfragt - die gewaehlte Basis im Vorschlag immer ausweisen
+- Narrative Betonung real vorhandener Eigenschaften (Denkmal, laufender Betrieb, Foerderprogramm, Holzbau, Barrierefreiheit ...) je nach Bonuskriterien des Verfahrens
+- Honorarzone/Schwierigkeitsgrad wie in den Stammdaten dokumentiert; eine begruendbare abweichende Einstufung nur als gekennzeichneter Vorschlag ("abweichend von Stammdaten, Begruendung: ...")
+- Wiederverwendung erprobter Zuschnitte aus `referenz-instanzen\` - bevorzugt solche aus gewonnenen Verfahren (ausgang=zusage)
+
+**VERBOTEN (Faktenaenderung):**
+- Zahlen aendern oder erfinden (Baukosten, Flaechen, Termine)
+- Leistungsphasen behaupten, die nicht erbracht wurden
+- Fertigstellungsdaten in den geforderten Referenzzeitraum "verschieben"
+- Eigenschaften, Themen oder Nutzungen erfinden, die das Projekt nicht hat
+- Bauherr, Vertragsrolle (allein vs. ARGE vs. Nachunternehmer) oder Auftragsverhaeltnis umdeuten
+
+**GRENZFAELLE - markieren statt entscheiden:**
+Faelle wie: Fertigstellung knapp ausserhalb des Referenzzeitraums, Baukosten knapp unter der Mindestgrenze, unklarer eigener LPH-Anteil (ARGE), Nutzung nur teilweise passend. Solche Kandidaten trotzdem listen, aber deutlich kennzeichnen: **"(Grenzfall - Ruecksprache Projektleitung)"** mit einem Satz Begruendung. Der Agent trifft hier KEINE Entscheidung.
+
+**Belegpflicht:** Jede Angabe im Vorschlag muss auf ein Feld der Datenbank oder ein dort verlinktes Quelldokument zurueckfuehrbar sein (Quellpfad nennen). Luecken als `(Verifikation noetig)` markieren.
+
+**Ranking-Logik:**
+1. Hard-Filter: Mindestkriterien (KO) gegen die WAHREN Stammdaten pruefen - nicht mit dem Zuschnitt schoenrechnen
+2. Punkte-Schaetzung je Bonuskriterium anhand des Punktesystems aus 4a/4b
+3. Bonus fuer: frueher in gewonnenen Verfahren verwendet (ausgang=zusage), Referenzschreiben vorhanden, gleicher AG-Typ, regionale Naehe
+4. Output je geforderter Referenz: 3-5 Kandidaten als Rangliste mit:
+   - Erfuellungsmatrix (je Mindest-/Bonuskriterium: erfuellt / Grenzfall / nicht erfuellt)
+   - Punkteschaetzung
+   - Empfohlener Zuschnitt: Bezeichnung, darzustellende LPH, Kostenbasis, Kernnarrativ (2-3 Saetze)
+   - Nachweise: Referenzschreiben vorhanden ja/nein + Pfad
+   - Fruehere Verwendung: in welchen Verfahren, mit welchem Ausgang
+
 ---
 
 ## SCHRITT 5: Projektanalyse aus allen Quellen
@@ -356,13 +411,14 @@ Erstelle die Analyse als EINE HTML-Datei mit:
 2. Terminuebersicht (ZENTRAL, alle Fristen auf einen Blick)
 3. Inhaltsverzeichnis
 4. Referenz- und Eignungsanalyse (mit Punktesystem und Gewichtung)
-5. Projektanalyse (inkl. Vorstudien-Auswertung)
-6. Vertragsanalyse (intelligent gefiltert)
-7. Empfohlene Bieterfragen
-8. Checkliste vor Vertragsunterzeichnung
-9. Detaillierter Plan bis Teilnahmeerklaerung (Punkt-fuer-Punkt mit allen Dokumenten)
-10. Zusammenfassung und Entscheidungsgrundlage
-11. Anhang (Dokumentenuebersicht)
+5. Referenz-Empfehlungen aus der Referenzdatenbank (falls konfiguriert - siehe Schritt 4e): pro geforderter Referenz die Top-Kandidaten als Tabelle/Cards mit Ampel, Erfuellungsmatrix je Kriterium, empfohlenem Zuschnitt (Bezeichnung, LPH, Kostenbasis, Narrativ), Nachweisen und frueherer Verwendung; Grenzfaelle deutlich als "(Grenzfall - Ruecksprache Projektleitung)" markiert
+6. Projektanalyse (inkl. Vorstudien-Auswertung)
+7. Vertragsanalyse (intelligent gefiltert)
+8. Empfohlene Bieterfragen
+9. Checkliste vor Vertragsunterzeichnung
+10. Detaillierter Plan bis Teilnahmeerklaerung (Punkt-fuer-Punkt mit allen Dokumenten)
+11. Zusammenfassung und Entscheidungsgrundlage
+12. Anhang (Dokumentenuebersicht)
 
 ### Design-Anforderungen:
 
