@@ -62,7 +62,9 @@ Beim Erzeugen der HTML-Analyse werden diese Platzhalter durch die tatsaechlichen
 ## WAS DU TUST
 
 Du erstellst eine professionelle interne Vertragsrisiko- und VGV-Bewertung fuer `{{buero.name}}`.
-Das Ergebnis ist eine einzige HTML-Datei im Ordner `Claude Analyse/` des aktuellen Projekts.
+Das Ergebnis sind bis zu drei HTML-Dateien im Ordner `5 Analyse/` des aktuellen Projekts:
+Hauptanalyse, Referenz_Analyse (falls Referenzdatenbank konfiguriert) und TERMINE.html (siehe Schritt 10).
+Den Ordner `5 Analyse/` legst du SOFORT bei Arbeitsbeginn an, falls er nicht existiert.
 Qualitaetsniveau: Big-4-Beratung.
 
 ---
@@ -159,6 +161,8 @@ Suche ALLE Termine und Fristen aus ALLEN Dokumenten und stelle sie zentral zusam
 - Sonstige Fristen (Versicherungsnachweis, Unterlagennachreichung etc.)
 
 Berechne: Wie viele Tage bis zur naechsten Frist?
+
+Diese Terminuebersicht erscheint in der Hauptanalyse UND ist die Datenbasis fuer die separate `TERMINE.html` (siehe Schritt 10c).
 
 ---
 
@@ -257,6 +261,8 @@ Faelle wie: Fertigstellung knapp ausserhalb des Referenzzeitraums, Baukosten kna
    - Empfohlener Zuschnitt: Bezeichnung, darzustellende LPH, Kostenbasis, Kernnarrativ (2-3 Saetze)
    - Nachweise: Referenzschreiben vorhanden ja/nein + Pfad
    - Fruehere Verwendung: in welchen Verfahren, mit welchem Ausgang
+
+Das Ergebnis wird in die SEPARATE Datei `Referenz_Analyse_{YYYY-MM-DD}.html` geschrieben (Schritt 10b), NICHT in die Hauptanalyse.
 
 ---
 
@@ -402,7 +408,16 @@ Fuer JEDES Dokument in der HTML-Analyse eine Zeile mit:
 
 ---
 
-## SCHRITT 10: HTML-Dokument erstellen
+## SCHRITT 10: HTML-Outputs erstellen
+
+Alle Output-Dateien landen im Ordner **`5 Analyse/`** im Projekt-Root. Diesen Ordner SOFORT bei Arbeitsbeginn anlegen, falls nicht vorhanden. Ausserhalb dieses Ordners wird NICHTS geschrieben.
+
+Es entstehen bis zu drei Dateien:
+- `VGV_Analyse_[Projektname]_[YYYY-MM-DD].html` (Hauptanalyse, immer - Schritt 10a)
+- `Referenz_Analyse_[Projektname]_[YYYY-MM-DD].html` (nur falls Referenz-Matching gelaufen ist - Schritt 10b)
+- `TERMINE.html` (immer - Schritt 10c)
+
+### 10a. Hauptanalyse
 
 Erstelle die Analyse als EINE HTML-Datei mit:
 
@@ -411,14 +426,15 @@ Erstelle die Analyse als EINE HTML-Datei mit:
 2. Terminuebersicht (ZENTRAL, alle Fristen auf einen Blick)
 3. Inhaltsverzeichnis
 4. Referenz- und Eignungsanalyse (mit Punktesystem und Gewichtung)
-5. Referenz-Empfehlungen aus der Referenzdatenbank (falls konfiguriert - siehe Schritt 4e): pro geforderter Referenz die Top-Kandidaten als Tabelle/Cards mit Ampel, Erfuellungsmatrix je Kriterium, empfohlenem Zuschnitt (Bezeichnung, LPH, Kostenbasis, Narrativ), Nachweisen und frueherer Verwendung; Grenzfaelle deutlich als "(Grenzfall - Ruecksprache Projektleitung)" markiert
-6. Projektanalyse (inkl. Vorstudien-Auswertung)
-7. Vertragsanalyse (intelligent gefiltert)
-8. Empfohlene Bieterfragen
-9. Checkliste vor Vertragsunterzeichnung
-10. Detaillierter Plan bis Teilnahmeerklaerung (Punkt-fuer-Punkt mit allen Dokumenten)
-11. Zusammenfassung und Entscheidungsgrundlage
-12. Anhang (Dokumentenuebersicht)
+5. Projektanalyse (inkl. Vorstudien-Auswertung)
+6. Vertragsanalyse (intelligent gefiltert)
+7. Empfohlene Bieterfragen
+8. Checkliste vor Vertragsunterzeichnung
+9. Detaillierter Plan bis Teilnahmeerklaerung (Punkt-fuer-Punkt mit allen Dokumenten)
+10. Zusammenfassung und Entscheidungsgrundlage
+11. Anhang (Dokumentenuebersicht)
+
+Direkt unter der Terminuebersicht: kleine Verweis-Box mit relativen Links auf `TERMINE.html` und (falls erstellt) `Referenz_Analyse_[...].html` - beide liegen im selben Ordner.
 
 ### Design-Anforderungen:
 
@@ -456,10 +472,47 @@ Erstelle die Analyse als EINE HTML-Datei mit:
 - Beide Buttons muessen visuell zum Gesamtdesign passen (gleiche Farbpalette, abgerundete Ecken, Hover-Effekte)
 
 ### Dateiname:
-`VGV_Analyse_[Projektname]_[YYYY-MM-DD].html`
+`5 Analyse/VGV_Analyse_[Projektname]_[YYYY-MM-DD].html`
 
-### Ablageort:
-`Claude Analyse/` im aktuellen Projektordner.
+### 10b. Referenz_Analyse HTML (nur falls Referenzdatenbank konfiguriert)
+
+Das Ergebnis des Referenz-Matchings (Schritt 4e) kommt NICHT in die Hauptanalyse, sondern in eine eigene Datei:
+
+**Datei:** `5 Analyse/Referenz_Analyse_[Projektname]_[YYYY-MM-DD].html`
+
+Struktur:
+1. Deckblatt (gleiches Branding wie Hauptanalyse), Titel "Referenz-Empfehlungen", Verfahrensname, Datum
+2. Zusammenfassung der Referenzanforderungen des Verfahrens (aus Schritt 4b): Mindest- und Bonuskriterien, Punktesystem, Anzahl geforderter Referenzen
+3. Pro geforderter Referenz das Kandidaten-Ranking als Cards/Tabelle mit Ampel:
+   - Erfuellungsmatrix (je Kriterium: erfuellt / Grenzfall / nicht erfuellt)
+   - Punkteschaetzung
+   - Empfohlener Zuschnitt (Bezeichnung, darzustellende LPH, Kostenbasis, Kernnarrativ)
+   - Nachweise (Referenzschreiben ja/nein + Pfad)
+   - Fruehere Verwendung (Verfahren + Ausgang)
+   - Grenzfaelle deutlich als "(Grenzfall - Ruecksprache Projektleitung)" markiert
+4. Hinweis-Box am Ende: angewandte Zuschnitt-Regeln (erlaubt vs. verboten) + Belegpflicht - damit jeder Leser weiss, dass keine Fakten veraendert wurden
+5. Rueckverweis-Link auf die Hauptanalyse (relative Verlinkung, gleicher Ordner)
+
+Design, PDF-Download-Button und Bearbeitungsmodus wie bei der Hauptanalyse.
+
+### 10c. TERMINE.html (immer erstellen)
+
+Alle Termine und Fristen aus Schritt 3 als eigene, schnell auffindbare Datei:
+
+**Datei:** `5 Analyse/TERMINE.html` - FESTER Dateiname ohne Datum. Wird bei jedem Lauf komplett neu geschrieben (die einzige Datei, die ueberschrieben wird), damit das Team sie immer am selben Ort findet.
+
+Struktur:
+1. Kopf: Verfahrensname, Buero-Branding dezent, Stand-Datum ("Stand: YYYY-MM-DD")
+2. **"Naechste Frist"-Box** prominent ganz oben: was, wann, verbleibende Tage
+3. Chronologische Termintabelle: Datum | Uhrzeit | Termin/Frist | Quelle (Dokument + Seite/Abschnitt) | Anmerkung (z.B. "Ausschlussfrist!", "Puffer einplanen")
+4. Visuelle Timeline aller Termine
+5. Countdown-Angaben ("noch X Tage") per JavaScript beim Oeffnen live berechnen (`new Date()`), nicht statisch einbrennen - so stimmt die Datei auch Wochen spaeter noch
+6. Vergangene Termine automatisch ausgegraut darstellen (ebenfalls per JavaScript)
+
+Design wie Hauptanalyse (Cards, druckbar, PDF-Download-Button). Keine Termine erfinden - nur was in den Unterlagen steht, jeweils mit Quellenangabe.
+
+### Ablageort (alle Dateien):
+`5 Analyse/` im aktuellen Projektordner. Ordner bei Arbeitsbeginn anlegen falls nicht vorhanden.
 
 ---
 

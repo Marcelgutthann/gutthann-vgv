@@ -14,16 +14,17 @@ Wenn du in einem Projektordner mit VGV-Unterlagen `/vgv` eintippst, durchsucht C
 - Machbarkeitsstudien (komplett, auch grosse PDFs)
 - Anlagen (Plaene, Lageplaene, B-Plan)
 
-Und erzeugt eine **Standalone-HTML-Analyse** mit:
-- Vertragsklauseln-Bewertung (Risiko-Ampel)
-- Honorar-Plausibilitaet
-- Referenz-Eignung (kannst du die Referenz erfuellen?)
-- Referenz-Empfehlungen aus der Buero-Referenzdatenbank (optional, ab v1.1)
-- Risiken pro Rolle (rollenspezifisch)
-- Verhandlungs-Empfehlungen
-- Empfehlung: Teilnahme ja/nein
+Und erzeugt **Standalone-HTML-Dateien** im Ordner `5 Analyse/`:
 
-Output: `<Projekt-Root>/Claude/VGV-Analyse/VGV_Analyse_YYYY-MM-DD.html`
+1. **`VGV_Analyse_YYYY-MM-DD.html`** - die Hauptanalyse:
+   - Vertragsklauseln-Bewertung (Risiko-Ampel)
+   - Honorar-Plausibilitaet
+   - Referenz-Eignung (kannst du die Referenz erfuellen?)
+   - Risiken pro Rolle (rollenspezifisch)
+   - Verhandlungs-Empfehlungen
+   - Empfehlung: Teilnahme ja/nein
+2. **`Referenz_Analyse_YYYY-MM-DD.html`** - Referenz-Empfehlungen aus der Buero-Referenzdatenbank (optional, ab v1.1)
+3. **`TERMINE.html`** - alle Termine und Fristen aufbereitet, mit Live-Countdown; fester Dateiname, damit sie immer am selben Ort zu finden ist (ab v1.1)
 
 ## Referenz-Matching (ab v1.1, optional)
 
@@ -78,8 +79,8 @@ Claude fragt dich:
 1. **Wo liegen die VGV-Unterlagen?** (Standardmaessig aktueller Ordner)
 2. **Buero-Daten** (falls noch keine `buero.json`) - nur einmal!
 
-Dann startet die Analyse automatisch. Output erscheint in `Claude/VGV-Analyse/`.
+Dann startet die Analyse automatisch. Output erscheint in `5 Analyse/`.
 
 ## Output-Konvention
 
-Alle Outputs landen in `<Projekt-Root>/Claude/VGV-Analyse/`. Die bestehende Projekt-Struktur wird **nicht angefasst**.
+Alle Outputs landen in `<Projekt-Root>/5 Analyse/` (wird bei Arbeitsbeginn angelegt). Ansonsten wird die bestehende Projekt-Struktur **nicht angefasst**. Analyse-Dateien werden nie ueberschrieben (neues Datum = neue Datei); einzige Ausnahme ist `TERMINE.html`, die bei jedem Lauf aktualisiert wird.
