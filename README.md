@@ -34,6 +34,8 @@ Dabei gelten harte Regeln: Auswahl und Betonung real erbrachter Leistungen ist e
 
 Erwartete Datenbank-Struktur: ein Ordner mit `SCHEMA.md`, `INDEX.md`, `projekte\*.md` (YAML-Frontmatter + Prosa), optional `referenz-instanzen\` und `verfahren\` (Anpassungshistorie frueherer Bewerbungen). Ohne konfigurierte Datenbank wird der Schritt einfach uebersprungen.
 
+**GHIW-intern:** Die Buero-Referenzdatenbank liegt unter `N:\13. VGV\7-Referenzdatenbank` (176 Projekte, 226 Verfahren, Referenz-Instanzen). Der Skill erkennt diesen Pfad automatisch, wenn das N:-Laufwerk verbunden ist - es ist KEINE Konfiguration noetig. Wer den Pfad manuell setzen will: `"referenzdatenbank": "N:\\13. VGV\\7-Referenzdatenbank"` in der `buero.json`.
+
 ## Universell fuer jedes Architekturbuero
 
 Beim ersten Aufruf fragt der Skill nach deinen Buero-Daten:

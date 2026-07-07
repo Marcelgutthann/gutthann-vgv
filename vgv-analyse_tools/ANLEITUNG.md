@@ -211,7 +211,7 @@ Fuer JEDE geforderte Referenz:
 
 **Voraussetzung:** In `buero.json` ist das Feld `buero.referenzdatenbank` gesetzt (Pfad zu einer buero-weiten Referenzdatenbank).
 
-- Falls das Feld fehlt: frage den Nutzer einmalig "Gibt es eine buero-weite Referenzdatenbank? Falls ja, Pfad angeben - falls nein, 'nein'." Speichere die Antwort in `buero.json` (`referenzdatenbank: "<pfad>"` oder `null`), damit die Frage nie wieder kommt.
+- Falls das Feld fehlt: pruefe zuerst, ob der GHIW-Standardpfad `N:\13. VGV\7-Referenzdatenbank` erreichbar ist (Datei `SCHEMA.md` dort vorhanden). Falls ja: diesen Pfad verwenden und OHNE Rueckfrage in `buero.json` speichern (`referenzdatenbank: "N:\\13. VGV\\7-Referenzdatenbank"`). Nur falls nicht erreichbar: frage den Nutzer einmalig "Gibt es eine buero-weite Referenzdatenbank? Falls ja, Pfad angeben - falls nein, 'nein'." Speichere die Antwort in `buero.json` (`referenzdatenbank: "<pfad>"` oder `null`), damit die Frage nie wieder kommt.
 - Falls `null` oder der Pfad nicht erreichbar ist (z.B. Netzlaufwerk nicht verbunden): Schritt ueberspringen, in der HTML-Analyse kurz vermerken ("Referenz-Matching uebersprungen - keine Referenzdatenbank verfuegbar").
 - **Die Referenzdatenbank ist strikt read-only.** Du schreibst dort NIEMALS hinein.
 
