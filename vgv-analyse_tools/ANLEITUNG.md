@@ -72,7 +72,7 @@ Zusaetzlich zum Rollen-Profil (WAS fuer eine Rolle das Buero hat) wird ein Bewer
 1. Lies `<Projekt-Root>/Claude/bewerbung.json`. Falls vorhanden: Werte verwenden, kurz bestaetigen (z.B. "Konstellation: ARGE mit Beispiel GmbH - aus bewerbung.json"), NICHT erneut fragen.
 2. Falls nicht vorhanden, frage den Nutzer:
    - **Frage 1:** "In welcher Konstellation bewerben wir uns? 1. GHIW / Einzelbewerbung - 2. AIP Generalplanergesellschaft - 3. ARGE (Bewerbergemeinschaft mit Partner)"
-   - **Frage 2 (nur bei 2 oder 3):** "Wie heisst die andere Gesellschaft genau (Firmierung)?" - die weiteren Zusatzfragen (bevollmaechtigter Vertreter, beteiligte Bueros, Leistungsaufteilung) stehen im jeweiligen Bewerberprofil.
+   - **Frage 2 (nur bei 3, ARGE):** "Wie heisst die andere Gesellschaft genau (Firmierung)?" - bei 2 (AIP) sind die Stammdaten bereits im Bewerberprofil gepflegt. Die weiteren Zusatzfragen (bevollmaechtigter Vertreter, Eignungsleihe-Aufteilung, Leistungsaufteilung) stehen im jeweiligen Bewerberprofil.
    - **Frage 3 (immer):** "Gibt es relevante und zu beachtende Referenzen oder sonstige Informationen fuer dieses Verfahren?" (Freitext, darf leer bleiben)
 3. Speichere die Antworten in `<Projekt-Root>/Claude/bewerbung.json`:
    ```json

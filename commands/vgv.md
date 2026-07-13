@@ -69,7 +69,7 @@ Klaere, WER sich in diesem Verfahren bewirbt (Details in ANLEITUNG.md Schritt 0e
 1. Falls `<Projekt-Root>/Claude/bewerbung.json` existiert: Werte verwenden, kurz bestaetigen, nicht erneut fragen.
 2. Sonst drei Fragen stellen:
    - **Konstellation:** 1. GHIW / Einzelbewerbung - 2. AIP Generalplanergesellschaft - 3. ARGE (Bewerbergemeinschaft)
-   - **Bei 2 oder 3:** Wie heisst die andere Gesellschaft genau? (weitere Zusatzfragen stehen im jeweiligen Bewerberprofil)
+   - **Bei 3 (ARGE):** Wie heisst die andere Gesellschaft genau? Bei 2 (AIP) sind die Stammdaten im Bewerberprofil gepflegt. (weitere Zusatzfragen stehen im jeweiligen Bewerberprofil)
    - **Immer:** Gibt es relevante und zu beachtende Referenzen oder sonstige Informationen fuer dieses Verfahren?
 3. Antworten in `<Projekt-Root>/Claude/bewerbung.json` speichern und das passende Suchprofil aus `vgv-analyse_tools/bewerberprofile/` laden (ghiw.md / aip-generalplaner.md / arge.md).
 
