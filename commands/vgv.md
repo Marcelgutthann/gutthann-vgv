@@ -25,6 +25,8 @@ user-invocable: true
 
 **NIE:** in andere Projekt-Ordner, in `~/.claude/plugins/`, in versteckte Ordner.
 
+Einzige weitere Ausnahme: die kleine Konfig-Datei `<Projekt-Root>/Claude/bewerbung.json` (Bewerber-Konstellation, siehe Schritt 3) - sie ist Konfiguration, kein Analyse-Output.
+
 ---
 
 ## Was zu tun ist
@@ -60,24 +62,37 @@ Speichere die Antworten in `<USER-HOME>/.claude/buero.json` (so muss der User es
 - Falls Argumente uebergeben wurden (`$ARGUMENTS`), nimm den dort angegebenen Pfad
 - Falls keine VGV-Unterlagen (PDFs, Word, Vertragsentwurf, Bekanntmachung) im aktuellen Ordner: frage den Nutzer wo die Unterlagen liegen
 
-### Schritt 3: Analyse durchfuehren
+### Schritt 3: Bewerber-Konstellation klaeren (Suchprofil)
+
+Klaere, WER sich in diesem Verfahren bewirbt (Details in ANLEITUNG.md Schritt 0e):
+
+1. Falls `<Projekt-Root>/Claude/bewerbung.json` existiert: Werte verwenden, kurz bestaetigen, nicht erneut fragen.
+2. Sonst drei Fragen stellen:
+   - **Konstellation:** 1. GHIW / Einzelbewerbung - 2. AIP Generalplanergesellschaft - 3. ARGE (Bewerbergemeinschaft)
+   - **Bei 2 oder 3:** Wie heisst die andere Gesellschaft genau? (weitere Zusatzfragen stehen im jeweiligen Bewerberprofil)
+   - **Immer:** Gibt es relevante und zu beachtende Referenzen oder sonstige Informationen fuer dieses Verfahren?
+3. Antworten in `<Projekt-Root>/Claude/bewerbung.json` speichern und das passende Suchprofil aus `vgv-analyse_tools/bewerberprofile/` laden (ghiw.md / aip-generalplaner.md / arge.md).
+
+### Schritt 4: Analyse durchfuehren
 
 - Fuehre alle Schritte aus `vgv-analyse_tools/ANLEITUNG.md` durch (Schritt 0 bis Schritt 10)
 - **Wichtig**: Machbarkeitsstudien VOLLSTAENDIG lesen (Schritt 1b-KRITISCH in der ANLEITUNG)
 - Wende rollenspezifische Anweisungen aus dem geladenen Profil an
+- Wende die konstellationsspezifischen Pruefpunkte aus dem geladenen Bewerberprofil an
 
-### Schritt 4: Referenz-Matching (falls Referenzdatenbank konfiguriert)
+### Schritt 5: Referenz-Matching (falls Referenzdatenbank konfiguriert)
 
 Falls in `buero.json` das Feld `buero.referenzdatenbank` gesetzt und der Pfad erreichbar ist:
 
 - Fuehre nach der Referenzanalyse das Referenz-Matching gemaess `vgv-analyse_tools/ANLEITUNG.md` Schritt 4e durch
 - Ein Matching-Agent schlaegt pro geforderter Referenz die besten Kandidaten aus der Datenbank vor, inkl. empfohlenem Zuschnitt (welche LPH darstellen, welche Kostenbasis, welches Narrativ)
+- Vom Nutzer genannte Referenzen/Hinweise aus `bewerbung.json` (Schritt 3) fliessen ins Matching ein und werden als "(Angabe Nutzer)" gekennzeichnet; bei ARGE/AIP gelten die Zurechnungsregeln aus dem Bewerberprofil
 - **Verhaltensregel:** Zuschnitt innerhalb der Fakten ist erlaubt (Auswahl/Betonung real erbrachter Leistungen), Faktenaenderung ist verboten. Grenzfaelle werden markiert, nicht entschieden. Details in ANLEITUNG.md Schritt 4e.
 - Ergebnis wird als EIGENE Datei `5 Analyse/Referenz_Analyse_{YYYY-MM-DD}.html` abgelegt (Details in ANLEITUNG.md Schritt 10b) - NICHT in die Hauptanalyse integriert, damit diese schlank bleibt. Die Hauptanalyse verlinkt darauf.
 
 Falls das Feld fehlt, `null` ist oder der Pfad nicht erreichbar (z.B. Netzlaufwerk nicht verbunden): Schritt ueberspringen und im Bericht kurz vermerken.
 
-### Schritt 5: Output erstellen
+### Schritt 6: Output erstellen
 
 Alle Outputs nach `<Projekt-Root>/5 Analyse/`:
 
@@ -105,6 +120,20 @@ Falls in `buero.json` ein noch nicht abgedecktes Leistungsbild steht:
 - Frage den Nutzer ob er die Analyse generisch (ohne Rollenprofil) durchfuehren will
 - Bei `ja`: ohne Profil, im Bericht entsprechend ausweisen
 - Bei `nein`: Abbruch
+
+---
+
+## Bewerberprofile (Konstellation / Suchprofil)
+
+Im Plugin enthalten in `vgv-analyse_tools/bewerberprofile/` - beschreiben WER sich bewirbt (unabhaengig vom Rollen-Profil):
+
+| Konstellation | Profil-Datei |
+|---|---|
+| GHIW / Einzelbewerbung | `bewerberprofile/ghiw.md` |
+| AIP Generalplanergesellschaft | `bewerberprofile/aip-generalplaner.md` |
+| ARGE / Bewerbergemeinschaft | `bewerberprofile/arge.md` |
+
+Auswahl und Zusatzfragen siehe Schritt 3; Details in ANLEITUNG.md Schritt 0e.
 
 ---
 

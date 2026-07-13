@@ -57,6 +57,41 @@ Ueberall in dieser Anweisung und in den Profilen werden Variablen aus `buero.jso
 
 Beim Erzeugen der HTML-Analyse werden diese Platzhalter durch die tatsaechlichen Werte ersetzt.
 
+### 0e. Bewerber-Konstellation klaeren (Bewerberprofil / Suchprofil laden)
+
+Zusaetzlich zum Rollen-Profil (WAS fuer eine Rolle das Buero hat) wird ein Bewerberprofil geladen (WER sich in diesem Verfahren bewirbt):
+
+| Konstellation | Profil-Datei |
+|---|---|
+| `ghiw` - Einzelbewerbung | `bewerberprofile/ghiw.md` |
+| `aip` - AIP Generalplanergesellschaft | `bewerberprofile/aip-generalplaner.md` |
+| `arge` - ARGE / Bewerbergemeinschaft | `bewerberprofile/arge.md` |
+
+**Ablauf:**
+
+1. Lies `<Projekt-Root>/Claude/bewerbung.json`. Falls vorhanden: Werte verwenden, kurz bestaetigen (z.B. "Konstellation: ARGE mit Beispiel GmbH - aus bewerbung.json"), NICHT erneut fragen.
+2. Falls nicht vorhanden, frage den Nutzer:
+   - **Frage 1:** "In welcher Konstellation bewerben wir uns? 1. GHIW / Einzelbewerbung - 2. AIP Generalplanergesellschaft - 3. ARGE (Bewerbergemeinschaft mit Partner)"
+   - **Frage 2 (nur bei 2 oder 3):** "Wie heisst die andere Gesellschaft genau (Firmierung)?" - die weiteren Zusatzfragen (bevollmaechtigter Vertreter, beteiligte Bueros, Leistungsaufteilung) stehen im jeweiligen Bewerberprofil.
+   - **Frage 3 (immer):** "Gibt es relevante und zu beachtende Referenzen oder sonstige Informationen fuer dieses Verfahren?" (Freitext, darf leer bleiben)
+3. Speichere die Antworten in `<Projekt-Root>/Claude/bewerbung.json`:
+   ```json
+   {
+     "bewerbung": {
+       "konstellation": "arge",
+       "partner": "Beispiel Ingenieure GmbH",
+       "vertreter": "GHIW",
+       "hinweise": "Referenz Schule X des Partners verwenden"
+     }
+   }
+   ```
+   (`partner`/`vertreter` nur bei `aip`/`arge`; `hinweise` = Antwort auf Frage 3 oder `null`)
+4. Lade die zugehoerige Profil-Datei aus `bewerberprofile/`. Behandle deren Anweisungen als ERGAENZUNG/SPEZIFIZIERUNG zu dieser Anleitung und zum Rollen-Profil.
+
+**Variablen:** `{{bewerbung.konstellation}}`, `{{bewerbung.partner}}`, `{{bewerbung.hinweise}}` stehen wie die `buero.*`-Variablen in allen Schritten zur Verfuegung.
+
+**Wichtig:** Die `hinweise` (Frage 3) fliessen in Schritt 4e (Referenz-Matching) und in die Hauptanalyse ein - vom Nutzer genannte Referenzen werden dort priorisiert geprueft und als "(Angabe Nutzer)" gekennzeichnet, nicht als Fakt aus der Datenbank behandelt.
+
 ---
 
 ## WAS DU TUST
@@ -225,6 +260,7 @@ Fuer JEDE geforderte Referenz:
 Starte einen Subagenten (Task-Tool) mit einem in sich vollstaendigen Auftrag. Falls Subagenten nicht verfuegbar sind, fuehre das Matching direkt aus. Der Auftrag enthaelt:
 - Die in 4b extrahierten Referenzanforderungen (Mindest- und Bonuskriterien, Punktesystem, Anzahl geforderter Referenzen, ggf. unterschiedliche Anforderungen je Referenz)
 - Den Projektsteckbrief des neuen Verfahrens (aus Schritt 5): Bauaufgabe, Nutzung, Kostenrahmen, LPH-Umfang, AG-Typ, Besonderheiten
+- Die Bewerber-Konstellation und die Nutzer-Hinweise aus `bewerbung.json` (Schritt 0e): dort genannte Referenzen priorisiert pruefen und als "(Angabe Nutzer)" kennzeichnen; bei ARGE/AIP die Zurechnungsregeln aus dem Bewerberprofil beachten (Partner-/Gesellschafter-Referenzen nie aus der Datenbank erfinden)
 - Den Pfad zur Referenzdatenbank und die Verhaltensregeln unten
 
 **Verhalten des Matching-Agents (VERBINDLICH):**
@@ -443,7 +479,7 @@ Direkt unter der Terminuebersicht: kleine Verweis-Box mit relativen Links auf `T
 - Logo: Zentriert, gross und prominent platziert
 - Logo-Quelle: `{{buero.logo_pfad}}` (typisch `assets/logo.png` im Skill-Ordner)
 - Logo-Einbindung: Als Base64-encoded `<img>` Tag direkt in der HTML (damit die Datei standalone funktioniert)
-- Text auf dem Deckblatt: `{{buero.secondary_color}}` (Default `#FFFFFF`) - Projektname, Auftraggeber, Verfahrenstyp, Datum, GP ja/nein
+- Text auf dem Deckblatt: `{{buero.secondary_color}}` (Default `#FFFFFF`) - Projektname, Auftraggeber, Verfahrenstyp, Datum, GP ja/nein, Bewerber-Konstellation (Formulierung siehe Bewerberprofil)
 - Auf dem Deckblatt nur die zwei Brandingfarben verwenden
 - Schriftart: Sans-serif, modern, clean (z.B. system-ui oder Arial)
 - Falls kein Logo in buero.json hinterlegt ist: Bueroname `{{buero.name}}` als grosse Textmarke statt Logo verwenden

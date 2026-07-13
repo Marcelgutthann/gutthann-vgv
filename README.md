@@ -48,6 +48,16 @@ Beim ersten Aufruf fragt der Skill nach deinen Buero-Daten:
 
 Diese werden in `~/.claude/buero.json` gespeichert - musst du nur **einmalig** ausfuellen, fuer alle zukuenftigen VGV-Analysen.
 
+## Bewerber-Konstellation (Suchprofile, ab v1.2)
+
+Beim Start jeder Analyse fragt der Skill, WER sich bewirbt:
+
+1. **GHIW / Einzelbewerbung** - das eigene Buero allein
+2. **AIP Generalplanergesellschaft** - Bewerbung ueber die GP-Gesellschaft
+3. **ARGE / Bewerbergemeinschaft** - gemeinsam mit einem Partner
+
+Bei AIP und ARGE folgt eine zweite Frage nach dem Namen der anderen Gesellschaft, danach immer die Frage, ob es relevante und zu beachtende Referenzen oder Informationen gibt. Die Antworten werden pro Projekt in `Claude/bewerbung.json` gespeichert (Re-Runs fragen nicht erneut) und steuern ein konstellationsspezifisches Suchprofil aus `vgv-analyse_tools/bewerberprofile/`: Zulassung der Konstellation, Bewerbergemeinschaftserklaerung, gesamtschuldnerische Haftung, Eignungsleihe, wessen Referenzen zaehlen, Nachweise je Mitglied usw.
+
 ## Verfuegbare Rollen-Profile
 
 In `vgv-analyse_tools/profiles/`:
@@ -80,6 +90,7 @@ Nach der Installation: Claude Code einmal neu starten.
 Claude fragt dich:
 1. **Wo liegen die VGV-Unterlagen?** (Standardmaessig aktueller Ordner)
 2. **Buero-Daten** (falls noch keine `buero.json`) - nur einmal!
+3. **Bewerber-Konstellation** (GHIW / AIP / ARGE, siehe oben) - einmal pro Projekt, gespeichert in `Claude/bewerbung.json`
 
 Dann startet die Analyse automatisch. Output erscheint in `5 Analyse/`.
 
