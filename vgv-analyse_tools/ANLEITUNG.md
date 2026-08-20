@@ -283,7 +283,10 @@ Architekten und Projektleiter legen Referenzen fuer ein neues Verfahren "zurecht
 - Bauherr, Vertragsrolle (allein vs. ARGE vs. Nachunternehmer) oder Auftragsverhaeltnis umdeuten
 
 **GRENZFAELLE - markieren statt entscheiden:**
-Faelle wie: Fertigstellung knapp ausserhalb des Referenzzeitraums, Baukosten knapp unter der Mindestgrenze, unklarer eigener LPH-Anteil (ARGE), Nutzung nur teilweise passend. Solche Kandidaten trotzdem listen, aber deutlich kennzeichnen: **"(Grenzfall - Ruecksprache Projektleitung)"** mit einem Satz Begruendung. Der Agent trifft hier KEINE Entscheidung.
+Faelle wie: Fertigstellung knapp ausserhalb des Referenzzeitraums, Baukosten knapp unter der Mindestgrenze, Nutzung nur teilweise passend. Solche Kandidaten trotzdem listen, aber deutlich kennzeichnen: **"(Grenzfall - Ruecksprache Projektleitung)"** mit einem Satz Begruendung. Der Agent trifft hier KEINE Entscheidung.
+
+**ARGE-REGEL - kein Grenzfall, keine Rueckfrage (Buero-Entscheid 20.08.2026):**
+Fruehere ARGE-Projekte des Bueros gelten als vollwertige eigene Referenzen und werden ohne Grenzfall-Markierung und ohne Ruecksprache eingesetzt. Wegen ARGE-Konstellation, Leistungsanteil oder Zurechnung wird KEINE Rueckfrage gestellt. Vollwertig heisst: als Referenz des Bueros fuehren und die ARGE-Rolle sichtbar lassen, wo sie abgefragt wird - nicht, Partner-Leistungen als selbst erbracht darzustellen (VERBOTEN-Liste gilt unveraendert). Fragt ein Formular explizit einen ARGE-/Leistungsanteil ab, der nirgends dokumentiert ist: Feld offen lassen und im Bericht als offenes Formularfeld vermerken - kein Rueckfrage-Anlass.
 
 **Belegpflicht:** Jede Angabe im Vorschlag muss auf ein Feld der Datenbank oder ein dort verlinktes Quelldokument zurueckfuehrbar sein (Quellpfad nennen). Luecken als `(Verifikation noetig)` markieren.
 

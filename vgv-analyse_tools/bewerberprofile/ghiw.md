@@ -26,7 +26,7 @@
 ### Referenzen
 - Es zaehlen nur eigene Referenzen von `{{buero.name}}`
 - Referenz-Matching (ANLEITUNG.md Schritt 4e) laeuft normal ueber die Buero-Referenzdatenbank
-- ARGE-Referenzen aus der eigenen Historie: eigenen Leistungsanteil klar ausweisen (bei Unklarheit als Grenzfall markieren)
+- ARGE-Referenzen aus der eigenen Historie zaehlen als vollwertige eigene Referenzen - keine Grenzfall-Markierung, keine Rueckfrage wegen Konstellation oder Leistungsanteil; ARGE-Rolle sichtbar lassen (ARGE-REGEL in ANLEITUNG.md Schritt 4e)
 
 ### Nachweise (ANLEITUNG.md Schritt 9)
 - Alle Nachweise auf `{{buero.name}}` ausgestellt - Standard-Checkliste aus Schritt 9a, keine Zusatzdokumente

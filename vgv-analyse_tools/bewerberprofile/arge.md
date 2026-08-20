@@ -24,7 +24,7 @@
 
 ### Referenzen - Kernfrage dieser Konstellation
 - Duerfen BEIDE Mitglieder Referenzen beisteuern? Muss jede geforderte Referenz von EINEM Mitglied allein erfuellt sein oder duerfen Kriterien kumulativ erfuellt werden?
-- Wie werden fruehere ARGE-Referenzen gewertet - zaehlt der eigene Leistungsanteil?
+- Wie werden fruehere ARGE-Referenzen laut Unterlagen gewertet? Nur als Befund im Bericht vermerken - eigene ARGE-Referenzen werden immer als vollwertige Referenzen eingesetzt, keine Rueckfrage dazu (ARGE-REGEL in ANLEITUNG.md Schritt 4e)
 - Referenz-Matching (ANLEITUNG.md Schritt 4e): die Referenzdatenbank deckt nur `{{buero.name}}` ab. Partner-Referenzen NICHT erfinden - vom Nutzer genannte Partner-Referenzen (Hinweis-Frage) einbeziehen und als "(Angabe Nutzer - Verifikation noetig)" kennzeichnen; fehlende Partner-Referenzen als Aufgabe "vom Partner beizustellen" listen
 
 ### Eignungsnachweise je Mitglied
