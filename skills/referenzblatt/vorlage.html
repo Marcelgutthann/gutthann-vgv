@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{TITEL_KURZ}}</title>
+<style>
+/* CI Gutthann HIW Architekten – Farbwerte belegt:
+   --ci-blau  #374961  Logo-Datei "Logo-Gutthann-HIW-Architekten-blau.jpg" (N:\3. Marketing\7-Vorlagen\6-GHIW\Logo\GUT Logo Sammlung)
+   --ci-akzent #4A79C5 Jahres-/Akzentfeld der InDesign-Objektdatenblaetter (Ref2_GS_Hagelstadt.pdf, Phase 1)
+   --ci-text  #4F4C4D Fliesstext/Titel der InDesign-Objektdatenblaetter
+   Schrift: Fira Sans (Hausschrift der ODs); Ersatz Segoe UI/Arial, falls nicht installiert. */
+:root{--ci-blau:#374961;--ci-akzent:#4A79C5;--ci-text:#4F4C4D;--ci-grau:#8A8788;--ci-linie:#D9D7D7;--ci-hell:#F3F3F3;--warn:#C0392B}
+@page{size:A4;margin:0}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{background:#E6E6E6;color:var(--ci-text);font-family:"Fira Sans","Segoe UI",Arial,sans-serif;font-size:8.6pt;line-height:1.38;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+#doc{padding:64px 0 40px}
+.page{position:relative;width:210mm;height:297mm;margin:0 auto 10mm;background:#fff;overflow:hidden;box-shadow:0 2px 10px rgba(0,0,0,.18)}
+.inner{position:absolute;left:14mm;right:14mm;top:12mm;bottom:15mm}
+.logo{position:absolute;right:14mm;top:11mm;width:21mm}
+.logo svg{display:block;width:100%;height:auto}
+.kicker{font-weight:600;font-size:12pt;color:var(--ci-text);letter-spacing:.2px;margin:0}
+h1.title{font-weight:300;font-size:18pt;line-height:1.12;margin:2mm 0 0;color:var(--ci-text);width:150mm}
+h1.title small{font-size:10pt;font-weight:400;color:var(--ci-grau)}
+h2{font-size:10pt;font-weight:600;margin:0 0 1.6mm;color:var(--ci-blau)}
+h3{font-size:8.6pt;font-weight:600;margin:2.4mm 0 .8mm;color:var(--ci-blau)}
+p{margin:0 0 1.7mm}
+ul{margin:0 0 1.8mm;padding-left:4mm}
+li{margin:0 0 .6mm}
+b,strong{font-weight:600}
+.frame{position:absolute;overflow:hidden;background:var(--ci-hell)}
+.frame img{position:absolute;display:block;user-select:none;-webkit-user-drag:none;transform-origin:50% 50%}
+.cap{position:absolute;font-size:6.6pt;line-height:1.2;color:#fff;background:rgba(55,73,97,.82);padding:.7mm 1.6mm;left:0;bottom:0;max-width:100%}
+.cap.dark{color:var(--ci-text);background:rgba(255,255,255,.85)}
+.box{position:absolute;overflow:hidden}
+table.data{border-collapse:collapse;width:100%;font-size:7.6pt;line-height:1.26}
+table.data td{padding:.9mm 1.2mm .9mm 0;vertical-align:top;border-bottom:.25mm solid var(--ci-linie)}
+table.data td:first-child{width:31mm;font-weight:600;color:var(--ci-blau)}
+table.crit{border-collapse:collapse;width:100%;font-size:7.8pt;line-height:1.3}
+table.crit th{background:var(--ci-blau);color:#fff;font-weight:600;text-align:left;padding:1mm 1.4mm}
+table.crit td{padding:.9mm 1.4mm;vertical-align:top;border-bottom:.25mm solid var(--ci-linie)}
+table.crit td:first-child{width:36mm;font-weight:600;color:var(--ci-blau)}
+.tag{position:absolute;background:var(--ci-akzent);color:#fff;font-weight:600;font-size:7pt;padding:1.2mm 2mm;line-height:1.1}
+.tag big{display:block;font-size:15pt;font-weight:600}
+.foot{position:absolute;left:14mm;right:14mm;bottom:7mm;font-size:6.6pt;color:var(--ci-grau);display:flex;justify-content:space-between;border-top:.25mm solid var(--ci-linie);padding-top:1.4mm}
+.note{font-size:6.6pt;color:var(--ci-grau)}
+.offen{background:#FFE58A;color:var(--ci-text)}
+.rule{height:.6mm;background:var(--ci-akzent);width:18mm;margin:2.2mm 0 2.6mm}
+/* ---------- Editor-UI (nur Bildschirm) ---------- */
+#tb{position:fixed;top:0;left:0;right:0;z-index:50;background:#2B3646;color:#fff;font:12px "Segoe UI",Arial,sans-serif;display:flex;flex-wrap:wrap;gap:4px;align-items:center;padding:6px 10px;box-shadow:0 2px 6px rgba(0,0,0,.3)}
+#tb button,#tb label.btn{background:#45536A;color:#fff;border:0;border-radius:4px;padding:5px 9px;font:inherit;cursor:pointer;white-space:nowrap}
+#tb button:hover,#tb label.btn:hover{background:#5A6B86}
+#tb button.on{background:var(--ci-akzent)}
+#tb button:disabled{opacity:.4;cursor:default}
+#tb .sep{width:1px;height:20px;background:#5A6B86;margin:0 4px}
+#tb .grp{display:flex;gap:4px;align-items:center}
+#tb input[type=range]{width:90px}
+#imgpanel{display:none}
+body.editing #imgpanel.show{display:flex}
+#srcbar{position:fixed;left:0;right:0;bottom:0;z-index:50;background:#2B3646;color:#E8EDF5;font:11.5px Consolas,"Segoe UI",monospace;padding:5px 10px;display:none;gap:8px;align-items:center}
+body.editing #srcbar.show{display:flex}
+#srcbar span{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+#srcbar button{background:#45536A;color:#fff;border:0;border-radius:4px;padding:3px 8px;cursor:pointer}
+.badge{position:absolute;right:-2mm;top:2mm;transform:translateX(100%);font:11px "Segoe UI",Arial,sans-serif;background:#2B3646;color:#fff;padding:3px 7px;border-radius:0 4px 4px 0;white-space:nowrap}
+.badge.over{background:var(--warn)}
+.page{overflow:visible}
+.page>.clip{position:absolute;inset:0;overflow:hidden}
+body.editing [data-edit]{outline:1px dashed rgba(74,121,197,.55);outline-offset:1px;cursor:text}
+body.editing [data-edit]:focus{outline:1.5px solid var(--ci-akzent)}
+body.editing .frame{cursor:grab;outline:1px dashed rgba(74,121,197,.55);outline-offset:-1px}
+body.editing .frame.sel{outline:2.5px solid var(--ci-akzent);outline-offset:-2px}
+body.editing .box.overflow,body.editing [data-edit].overflow{outline:2px solid var(--warn)!important}
+#toast{position:fixed;left:50%;top:52px;transform:translateX(-50%);background:#2B3646;color:#fff;padding:7px 14px;border-radius:5px;font:12px "Segoe UI",Arial;display:none;z-index:60}
+@media print{
+  body{background:#fff}
+  #doc{padding:0}
+  #tb,#srcbar,.badge,#toast{display:none!important}
+  .page{margin:0;box-shadow:none;page-break-after:always;break-after:page}
+  .page:last-child{page-break-after:auto;break-after:auto}
+  [data-edit],.frame{outline:none!important}
+}
+</style>
+</head>
+<body>
+<div id="tb">
+  <button id="bEdit" title="Bearbeitungsmodus ein/aus">✎ Bearbeiten</button>
+  <span class="sep"></span>
+  <div class="grp"><button data-cmd="bold" title="Fett (Strg+B)"><b>F</b></button><button data-cmd="italic" title="Kursiv (Strg+I)"><i>K</i></button>
+  <button id="bUndo" title="Rückgängig (Strg+Z)">↶</button><button id="bRedo" title="Wiederholen (Strg+Y)">↷</button></div>
+  <span class="sep"></span>
+  <div class="grp"><button id="bRowAdd" title="Tabellenzeile unter Cursor einfügen">+ Zeile</button><button id="bRowDel" title="Tabellenzeile am Cursor löschen">− Zeile</button>
+  <button id="bLiAdd" title="Listenpunkt nach Cursor einfügen">+ Punkt</button><button id="bLiDel" title="Listenpunkt am Cursor löschen">− Punkt</button></div>
+  <span class="sep"></span>
+  <div class="grp" id="imgpanel">
+    <label class="btn" title="Bild ersetzen">Bild ersetzen<input type="file" id="fRepl" accept="image/*" hidden></label>
+    <span>Zoom</span><input type="range" id="rZoom" min="1" max="4" step="0.01" value="1">
+    <button id="bFit" title="Füllen / Einpassen umschalten">Füllen</button>
+    <button id="bRot" title="Um 90° drehen">⟳ 90°</button>
+    <button id="bFlipH" title="Horizontal spiegeln">⇋</button><button id="bFlipV" title="Vertikal spiegeln">⇵</button>
+    <button id="bReset" title="Bild zurücksetzen">Zurücksetzen</button>
+  </div>
+  <span style="flex:1"></span>
+  <button id="bSave" title="Als HTML speichern (Strg+S)">💾 Speichern</button>
+  <button id="bPrint" title="Drucken / als PDF speichern (A4, ohne Rand)">🖨 Drucken / PDF</button>
+</div>
+<div id="toast"></div>
+<div id="doc">
+<!--
+  GHIW-Referenzblatt · Seitenbausteine
+  - Seite 1 ist immer dabei. Seite 2 und 3 nur bei 2- bzw. 3-seitigem Blatt; nicht gebrauchte Seiten ganz löschen.
+  - Alle Platzhalter (doppelte geschweifte Klammern) ersetzen. Fehlt ein belegter Wert: gelb markierter Hinweis "zu ergänzen" (Format siehe SKILL.md).
+  - Positionen (left/top/width/height in mm) NICHT ändern – das ist das Layout der InDesign-Objektdatenblätter.
+  - Bilder: data-img = eindeutiger Schlüssel, data-src = Originalpfad auf N: (PDF-Seite mit #1, #2 …).
+    Fotos: data-fit0/data-fit="cover", Pläne/Lagepläne: "contain" + background:#fff – je Bild passend wählen, auch abweichend von der Vorlage.
+  - <div class="logo"></div> leer lassen – bauen.py setzt das Logo ein.
+  - Fußzeile rechts: "Seite X von N" an die tatsächliche Seitenzahl anpassen.
+-->
+<!-- ===================== SEITE 1 · Titel, Projektdaten, Kurzbeschreibung ===================== -->
+<section class="page" data-limit="6"><div class="clip">
+  <div class="logo"></div>
+  <div class="box" style="left:14mm;top:12mm;width:150mm;height:24mm">
+    <p class="kicker" data-edit>Referenz {{NR}}</p>
+    <h1 class="title" data-edit>{{PROJEKTTITEL}} <small>{{ZUSATZ_ODER_LEER}}</small></h1>
+  </div>
+  <div class="frame" style="left:14mm;top:39mm;width:182mm;height:80mm" data-img="r_titel" data-src="{{PFAD_TITELBILD}}" data-fit0="cover" data-fit="cover"><img alt="">
+    <div class="cap" data-edit>{{BILDUNTERSCHRIFT · Foto: URHEBER}}</div></div>
+  <div class="tag" style="left:14mm;top:39mm"><big data-edit>{{JAHR}}</big><span data-edit>{{Fertigstellung|Nutzung ab|in Ausführung}}</span></div>
+
+  <div class="box" style="left:14mm;top:124mm;width:92mm;height:158mm">
+    <h2 data-edit>Projektdaten</h2>
+    <table class="data"><tbody>
+      <tr><td data-edit>Auftraggeber</td><td data-edit>{{BAUHERR}}<br>{{ADRESSE}}</td></tr>
+      <tr><td data-edit>Ansprechpartner</td><td data-edit>{{NAME, FUNKTION}}<br>{{TEL · MAIL}}</td></tr>
+      <tr><td data-edit>Objekt</td><td data-edit>{{OBJEKT}}<br>{{OBJEKTADRESSE}}</td></tr>
+      <tr><td data-edit>Leistung</td><td data-edit>Objektplanung Gebäude (§ 34 HOAI), LPH {{LPH}}</td></tr>
+      <tr><td data-edit>Auftragnehmer</td><td data-edit>Gutthann HIW Architekten GmbH</td></tr>
+      <tr><td data-edit>Honorarzone</td><td data-edit>{{HZ}}</td></tr>
+      <tr><td data-edit>Projektleitung</td><td data-edit>{{NAME, TITEL}}</td></tr>
+      <tr><td data-edit>BGF | BRI</td><td data-edit>{{BGF}} m² | {{BRI}} m³ ({{QUELLE, STAND}})</td></tr>
+      <tr><td data-edit>Kosten</td><td data-edit>KG 300+400: {{BETRAG}} Mio. € brutto ({{Kostenberechnung|Kostenfeststellung}}, {{STAND}})</td></tr>
+      <tr><td data-edit>Förderung</td><td data-edit>{{FÖRDERUNG_ODER_ZEILE_LÖSCHEN}}</td></tr>
+      <tr><td data-edit>Planung</td><td data-edit>{{PLANUNGSBEGINN · MEILENSTEINE}}</td></tr>
+      <tr><td data-edit>Bauzeit</td><td data-edit>{{MM/JJJJ – MM/JJJJ}}</td></tr>
+      <tr><td data-edit>Fertigstellung</td><td data-edit>{{DATUM}}</td></tr>
+      <!-- Fokus-Zeile, nur wenn ein Fokus gewählt und belegt ist, z. B. Bauweise: Holzbau / Holzhybrid … -->
+    </tbody></table>
+  </div>
+
+  <div class="frame" style="left:111mm;top:124mm;width:85mm;height:56mm;background:#fff" data-img="r_lage" data-src="{{PFAD_LAGEPLAN_ODER_ZWEITBILD}}" data-fit0="contain" data-fit="contain"><img alt=""></div>
+  <div class="box note" style="left:111mm;top:181mm;width:85mm;height:8mm" data-edit>{{BILDUNTERSCHRIFT}}</div>
+  <div class="box" style="left:111mm;top:192mm;width:85mm;height:90mm">
+    <h2 data-edit>Kurzbeschreibung</h2>
+    <p data-edit>{{KURZBESCHREIBUNG – 600 bis 1.000 Zeichen, Fokus zuerst, Kernaussagen <b>fett</b>}}</p>
+  </div>
+  <div class="foot"><span data-edit>Gutthann HIW Architekten GmbH · {{VERFAHREN_ODER_"Projektreferenz"}}</span><span data-edit>{{ANLAGE_ZU …}} · Seite 1 von {{N}}</span></div>
+</div></section>
+
+<!-- ===================== SEITE 2 · Wertungsrelevante Merkmale + großes Bild/Plan ===================== -->
+<section class="page" data-limit="6"><div class="clip">
+  <div class="logo"></div>
+  <div class="box" style="left:14mm;top:12mm;width:150mm;height:14mm">
+    <p class="kicker" data-edit>Referenz {{NR}} · {{KURZTITEL}}</p>
+    <div class="rule"></div>
+  </div>
+  <div class="box" style="left:14mm;top:34mm;width:182mm;height:110mm">
+    <h2 data-edit>{{Wertungsrelevante Merkmale (Matrix …, Kriterium …) | Schwerpunkt FOKUS | Projektmerkmale}}</h2>
+    <table class="crit"><thead><tr><th>Kriterium</th><th>Nachweis im Projekt</th></tr></thead><tbody>
+      <tr><td data-edit>{{KRITERIUM}}</td><td data-edit>{{NACHWEIS – belegte Fakten, Kernaussage <b>fett</b>}}</td></tr>
+      <tr><td data-edit>{{KRITERIUM}}</td><td data-edit>{{NACHWEIS}}</td></tr>
+      <tr><td data-edit>{{KRITERIUM}}</td><td data-edit>{{NACHWEIS}}</td></tr>
+    </tbody></table>
+  </div>
+  <div class="frame" style="left:14mm;top:148mm;width:182mm;height:120mm;background:#fff" data-img="r_gross" data-src="{{PFAD_ANSICHT_SCHNITT_ODER_FOTO}}" data-fit0="contain" data-fit="contain"><img alt=""></div>
+  <div class="box note" style="left:14mm;top:269mm;width:182mm;height:5mm" data-edit>{{BILDUNTERSCHRIFT}}</div>
+  <div class="foot"><span data-edit>Gutthann HIW Architekten GmbH · {{VERFAHREN}}</span><span data-edit>{{ANLAGE_ZU …}} · Seite 2 von {{N}}</span></div>
+</div></section>
+
+<!-- ===================== SEITE 3 · Aufgabe und Umsetzung ===================== -->
+<section class="page" data-limit="6"><div class="clip">
+  <div class="logo"></div>
+  <div class="box" style="left:14mm;top:12mm;width:150mm;height:14mm">
+    <p class="kicker" data-edit>Referenz {{NR}} · Aufgabe und Umsetzung</p>
+    <div class="rule"></div>
+  </div>
+  <div class="box" style="left:14mm;top:34mm;width:90mm;height:150mm">
+    <h3 data-edit>Ausgangslage</h3>
+    <p data-edit>{{TEXT}}</p>
+    <h3 data-edit>{{THEMA 1 – beim Fokus: der Fokus}}</h3>
+    <p data-edit>{{TEXT}}</p>
+    <h3 data-edit>{{THEMA 2}}</h3>
+    <p data-edit>{{TEXT}}</p>
+    <h3 data-edit>Bezug zur Aufgabe {{VERFAHREN_ODER_FOKUS}}</h3>
+    <ul data-edit><li>{{PUNKT}}</li><li>{{PUNKT}}</li><li>{{PUNKT}}</li></ul>
+  </div>
+  <div class="frame" style="left:109mm;top:34mm;width:87mm;height:74mm;background:#fff" data-img="r_grundriss" data-src="{{PFAD_GRUNDRISS}}" data-fit0="contain" data-fit="contain"><img alt=""></div>
+  <div class="box note" style="left:109mm;top:109mm;width:87mm;height:8mm" data-edit>{{BILDUNTERSCHRIFT}}</div>
+  <div class="frame" style="left:109mm;top:120mm;width:87mm;height:64mm" data-img="r_foto2" data-src="{{PFAD_FOTO}}" data-fit0="cover" data-fit="cover"><img alt="">
+    <div class="cap" data-edit>{{BILDUNTERSCHRIFT · Foto: URHEBER}}</div></div>
+  <div class="frame" style="left:14mm;top:190mm;width:182mm;height:82mm;background:#fff" data-img="r_plan2" data-src="{{PFAD_ANSICHT_ODER_SCHNITT}}" data-fit0="contain" data-fit="contain"><img alt=""></div>
+  <div class="box note" style="left:14mm;top:273mm;width:182mm;height:5mm" data-edit>{{BILDUNTERSCHRIFT}}</div>
+  <div class="foot"><span data-edit>Gutthann HIW Architekten GmbH · {{VERFAHREN}}</span><span data-edit>{{ANLAGE_ZU …}} · Seite 3 von {{N}}</span></div>
+</div></section>
+</div>
+<div id="srcbar"><b>Quelle:</b><span id="srcTxt"></span><button id="bCopy">Pfad kopieren</button></div>
+<script id="imgdata" type="application/json">{}</script>
+<script>
+(function(){
+"use strict";
+var DOC=document.getElementById('doc'), BODY=document.body;
+var IMGS=JSON.parse(document.getElementById('imgdata').textContent||'{}');
+var LIMIT_DEFAULT=6;
+var FILENAME="{{DATEINAME}}";
+var editing=false, selFrame=null, lastEdit=null, fileHandle=null;
+var hist=[], hpos=-1, typingTimer=null;
+function $(id){return document.getElementById(id)}
+function toast(t,ms){var e=$('toast');e.textContent=t;e.style.display='block';clearTimeout(e._t);e._t=setTimeout(function(){e.style.display='none'},ms||2600)}
+function frames(){return DOC.querySelectorAll('.frame')}
+/* ---------- Bilder ---------- */
+function applySrc(){frames().forEach(function(f){var img=f.querySelector('img');var d=IMGS[f.dataset.img];if(img&&d&&img.getAttribute('src')!==d){img.onload=function(){layout(f)};img.src=d}else layout(f)})}
+function num(v,d){v=parseFloat(v);return isNaN(v)?d:v}
+function layout(f){var img=f.querySelector('img');if(!img||!img.naturalWidth)return;var W=f.clientWidth,H=f.clientHeight;
+ var r=num(f.dataset.r,0),z=num(f.dataset.z,1),x=num(f.dataset.x,0),y=num(f.dataset.y,0),fh=num(f.dataset.fh,1),fv=num(f.dataset.fv,1);
+ var rot=(r%180)!==0,bw=rot?H:W,bh=rot?W:H,nw=img.naturalWidth,nh=img.naturalHeight;
+ var s=(f.dataset.fit==='contain')?Math.min(bw/nw,bh/nh):Math.max(bw/nw,bh/nh);var iw=nw*s,ih=nh*s;
+ img.style.width=iw+'px';img.style.height=ih+'px';img.style.left=(W-iw)/2+'px';img.style.top=(H-ih)/2+'px';
+ img.style.transform='translate('+(x*W)+'px,'+(y*H)+'px) rotate('+r+'deg) scale('+(z*fh)+','+(z*fv)+')';}
+function layoutAll(){frames().forEach(layout)}
+function selectFrame(f){if(selFrame)selFrame.classList.remove('sel');selFrame=f;
+ if(f){f.classList.add('sel');$('imgpanel').classList.add('show');$('rZoom').value=num(f.dataset.z,1);$('bFit').textContent=f.dataset.fit==='contain'?'Einpassen ✓':'Füllen ✓';
+  var t=f.dataset.repl?('Ersetzt durch Datei: '+f.dataset.repl+'   (Original: '+f.dataset.src+')'):(f.dataset.src||'(unbekannt)');$('srcTxt').textContent=t;$('srcTxt').title=t;$('srcbar').classList.add('show');}
+ else{$('imgpanel').classList.remove('show');$('srcbar').classList.remove('show');}}
+/* ---------- Seiten: Bildzähler, Überlauf ---------- */
+function checkPages(){DOC.querySelectorAll('.page').forEach(function(p,i){var n=p.querySelectorAll('.frame').length,lim=num(p.dataset.limit,LIMIT_DEFAULT);
+  var b=p.querySelector(':scope>.badge');if(!b){b=document.createElement('div');b.className='badge';p.appendChild(b)}
+  b.textContent='Seite '+(i+1)+': '+n+' / max. '+lim+' Bilder'+(n>lim?'  ⚠ Limit überschritten':'');b.classList.toggle('over',n>lim);});
+ var over=0;DOC.querySelectorAll('.box,[data-edit]').forEach(function(e){var o=e.scrollHeight>e.clientHeight+1&&getComputedStyle(e).overflow!=='visible';if(e.classList.contains('box'))o=e.scrollHeight>e.clientHeight+1;e.classList.toggle('overflow',o);if(o)over++});return over}
+/* ---------- Verlauf (Rückgängig/Wiederholen) ---------- */
+function snapshot(){var c=DOC.cloneNode(true);c.querySelectorAll('img').forEach(function(i){i.removeAttribute('src')});c.querySelectorAll('.sel').forEach(function(e){e.classList.remove('sel')});
+ return {html:c.innerHTML,imgs:Object.assign({},IMGS)}}
+function push(){var s=snapshot();if(hpos>=0&&hist[hpos].html===s.html&&hist[hpos].imgs===s.imgs)return;hist=hist.slice(0,hpos+1);hist.push(s);if(hist.length>80)hist.shift();hpos=hist.length-1;updUR()}
+function restore(s){var fs=[].slice.call(frames()),si=selFrame?fs.indexOf(selFrame):-1;DOC.innerHTML=s.html;IMGS=Object.assign({},s.imgs);setEditable(editing);applySrc();
+ var nf=frames();selectFrame(si>=0&&nf[si]?nf[si]:null);checkPages()}
+function undo(){clearTimeout(typingTimer);flushTyping();if(hpos>0){hpos--;restore(hist[hpos])}updUR()}
+function redo(){if(hpos<hist.length-1){hpos++;restore(hist[hpos])}updUR()}
+function updUR(){$('bUndo').disabled=hpos<=0;$('bRedo').disabled=hpos>=hist.length-1}
+var dirtyTyping=false;function flushTyping(){if(dirtyTyping){dirtyTyping=false;push()}}
+/* ---------- Bearbeitungsmodus ---------- */
+function setEditable(on){DOC.querySelectorAll('[data-edit]').forEach(function(e){if(on)e.setAttribute('contenteditable','true');else e.removeAttribute('contenteditable')})}
+function toggleEdit(on){editing=(on===undefined)?!editing:on;BODY.classList.toggle('editing',editing);$('bEdit').classList.toggle('on',editing);$('bEdit').textContent=editing?'✎ Bearbeiten (an)':'✎ Bearbeiten';
+ setEditable(editing);if(!editing)selectFrame(null);if(editing&&hist.length===0)push();checkPages()}
+$('bEdit').onclick=function(){toggleEdit()};
+document.querySelectorAll('#tb button').forEach(function(b){b.addEventListener('mousedown',function(e){e.preventDefault()})});
+document.querySelectorAll('[data-cmd]').forEach(function(b){b.onclick=function(){if(!editing)return;document.execCommand(b.dataset.cmd,false,null);dirtyTyping=true;flushTyping()}});
+$('bUndo').onclick=undo;$('bRedo').onclick=redo;
+DOC.addEventListener('input',function(e){dirtyTyping=true;clearTimeout(typingTimer);typingTimer=setTimeout(function(){flushTyping();checkPages()},500)});
+DOC.addEventListener('focusin',function(e){var t=e.target.closest('[data-edit]');if(t)lastEdit=t});
+DOC.addEventListener('paste',function(e){if(!editing)return;var t=e.target.closest&&e.target.closest('[data-edit]');if(!t)return;e.preventDefault();var txt=(e.clipboardData||window.clipboardData).getData('text/plain');document.execCommand('insertText',false,txt)});
+document.addEventListener('keydown',function(e){var k=e.key.toLowerCase();
+ if((e.ctrlKey||e.metaKey)&&k==='s'){e.preventDefault();save();return}
+ if(!editing)return;
+ if((e.ctrlKey||e.metaKey)&&k==='z'&&!e.shiftKey){e.preventDefault();undo()}
+ else if((e.ctrlKey||e.metaKey)&&(k==='y'||(k==='z'&&e.shiftKey))){e.preventDefault();redo()}
+ else if((e.ctrlKey||e.metaKey)&&(k==='b'||k==='i')){e.preventDefault();document.execCommand(k==='b'?'bold':'italic');dirtyTyping=true;flushTyping()}});
+/* ---------- Tabellen / Listen ---------- */
+function caretEl(){var s=window.getSelection();if(!s.rangeCount)return lastEdit;var n=s.anchorNode;return n?(n.nodeType===1?n:n.parentElement):lastEdit}
+$('bRowAdd').onclick=function(){if(!editing)return;var c=caretEl(),tr=c&&c.closest('tr');if(!tr||!DOC.contains(tr)){toast('Cursor in eine Tabellenzeile setzen');return}
+ var n=tr.cloneNode(true);n.querySelectorAll('[data-edit]').forEach(function(td){td.innerHTML='…'});tr.after(n);setEditable(true);push();checkPages()};
+$('bRowDel').onclick=function(){if(!editing)return;var c=caretEl(),tr=c&&c.closest('tr');if(!tr||!DOC.contains(tr)){toast('Cursor in eine Tabellenzeile setzen');return}
+ if(tr.parentElement.children.length<=1){toast('Letzte Zeile bleibt erhalten');return}tr.remove();push();checkPages()};
+$('bLiAdd').onclick=function(){if(!editing)return;var c=caretEl(),li=c&&c.closest('li');if(!li||!DOC.contains(li)){toast('Cursor in einen Listenpunkt setzen');return}
+ var n=document.createElement('li');n.textContent='…';li.after(n);push();checkPages()};
+$('bLiDel').onclick=function(){if(!editing)return;var c=caretEl(),li=c&&c.closest('li');if(!li||!DOC.contains(li)){toast('Cursor in einen Listenpunkt setzen');return}
+ if(li.parentElement.children.length<=1){toast('Letzter Punkt bleibt erhalten');return}li.remove();push();checkPages()};
+/* ---------- Bild-Interaktion ---------- */
+var drag=null;
+DOC.addEventListener('mousedown',function(e){if(!editing)return;var f=e.target.closest('.frame');if(!f){if(!e.target.closest('#imgpanel'))selectFrame(null);return}
+ e.preventDefault();selectFrame(f);drag={f:f,sx:e.clientX,sy:e.clientY,x:num(f.dataset.x,0),y:num(f.dataset.y,0),moved:false};f.style.cursor='grabbing'});
+document.addEventListener('mousemove',function(e){if(!drag)return;var f=drag.f,sc=f.getBoundingClientRect().width/f.clientWidth;
+ f.dataset.x=(drag.x+(e.clientX-drag.sx)/sc/f.clientWidth).toFixed(4);f.dataset.y=(drag.y+(e.clientY-drag.sy)/sc/f.clientHeight).toFixed(4);drag.moved=true;layout(f)});
+document.addEventListener('mouseup',function(){if(drag){drag.f.style.cursor='';if(drag.moved)push();drag=null}});
+DOC.addEventListener('wheel',function(e){if(!editing||!selFrame||!e.target.closest('.frame.sel'))return;e.preventDefault();var z=Math.min(4,Math.max(1,num(selFrame.dataset.z,1)*(e.deltaY<0?1.05:1/1.05)));selFrame.dataset.z=z.toFixed(3);$('rZoom').value=z;layout(selFrame);clearTimeout(typingTimer);typingTimer=setTimeout(push,400)},{passive:false});
+$('rZoom').oninput=function(){if(!selFrame)return;selFrame.dataset.z=this.value;layout(selFrame)};$('rZoom').onchange=function(){push()};
+$('bFit').onclick=function(){if(!selFrame)return;selFrame.dataset.fit=selFrame.dataset.fit==='contain'?'cover':'contain';selectFrame(selFrame);layout(selFrame);push()};
+$('bRot').onclick=function(){if(!selFrame)return;selFrame.dataset.r=(num(selFrame.dataset.r,0)+90)%360;layout(selFrame);push()};
+$('bFlipH').onclick=function(){if(!selFrame)return;selFrame.dataset.fh=-num(selFrame.dataset.fh,1);layout(selFrame);push()};
+$('bFlipV').onclick=function(){if(!selFrame)return;selFrame.dataset.fv=-num(selFrame.dataset.fv,1);layout(selFrame);push()};
+$('bReset').onclick=function(){if(!selFrame)return;var f=selFrame;['z','x','y','r','fh','fv'].forEach(function(k){delete f.dataset[k]});f.dataset.fit=f.dataset.fit0||'cover';
+ if(f.dataset.repl&&f.dataset.orig&&IMGS[f.dataset.orig]){f.dataset.img=f.dataset.orig;delete f.dataset.repl}applySrc();selectFrame(f);push()};
+$('fRepl').onchange=function(){var file=this.files[0],f=selFrame;this.value='';if(!file||!f)return;var rd=new FileReader();
+ rd.onload=function(){var k='u'+Date.now();IMGS[k]=rd.result;if(!f.dataset.orig)f.dataset.orig=f.dataset.img;f.dataset.img=k;f.dataset.repl=file.name;['z','x','y','r','fh','fv'].forEach(function(q){delete f.dataset[q]});applySrc();selectFrame(f);push();toast('Bild ersetzt: '+file.name)};rd.readAsDataURL(file)};
+$('bCopy').onclick=function(){var t=$('srcTxt').textContent;var done=function(){toast('Pfad kopiert')};
+ if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(t).then(done,fallback);else fallback();
+ function fallback(){var ta=document.createElement('textarea');ta.value=t;document.body.appendChild(ta);ta.select();try{document.execCommand('copy');done()}catch(e){prompt('Pfad kopieren:',t)}ta.remove()}};
+/* ---------- Speichern / Drucken ---------- */
+function serialize(){flushTyping();var keep={};frames().forEach(function(f){keep[f.dataset.img]=1;if(f.dataset.orig)keep[f.dataset.orig]=1});
+ var data={};Object.keys(keep).forEach(function(k){if(IMGS[k])data[k]=IMGS[k]});
+ var root=document.documentElement.cloneNode(true),b=root.querySelector('body');b.classList.remove('editing');
+ root.querySelectorAll('[contenteditable]').forEach(function(e){e.removeAttribute('contenteditable')});
+ root.querySelectorAll('.sel,.overflow,.on,.show').forEach(function(e){e.classList.remove('sel','overflow','on','show')});
+ root.querySelectorAll('.badge').forEach(function(e){e.remove()});root.querySelector('#bEdit').textContent='✎ Bearbeiten';root.querySelector('#toast').style.display='none';
+ root.querySelectorAll('#doc img').forEach(function(i){i.removeAttribute('src')});
+ root.querySelector('#imgdata').textContent=JSON.stringify(data);
+ return '<!DOCTYPE html>\n'+root.outerHTML}
+async function save(){var over=checkPages();var html=serialize();
+ if(window.showSaveFilePicker){try{if(!fileHandle)fileHandle=await window.showSaveFilePicker({suggestedName:FILENAME,types:[{description:'HTML-Datei',accept:{'text/html':['.html']}}]});
+   var w=await fileHandle.createWritable();await w.write(new Blob([html],{type:'text/html'}));await w.close();toast('Gespeichert: '+fileHandle.name+(over?'  ⚠ '+over+' Textfeld(er) mit Überlauf':''),3500);return}
+  catch(e){if(e&&e.name==='AbortError')return;}}
+ var a=document.createElement('a');a.href=URL.createObjectURL(new Blob([html],{type:'text/html'}));a.download=FILENAME;document.body.appendChild(a);a.click();setTimeout(function(){URL.revokeObjectURL(a.href);a.remove()},1500);
+ toast('Als Download gespeichert: '+FILENAME,3500)}
+$('bSave').onclick=save;
+$('bPrint').onclick=function(){var over=checkPages();var wasEd=editing;toggleEdit(false);if(over)toast('⚠ '+over+' Textfeld(er) mit Überlauf – bitte prüfen',4000);
+ setTimeout(function(){window.print();if(wasEd)toggleEdit(true)},over?900:50)};
+window.addEventListener('beforeprint',function(){selectFrame(null)});
+window.addEventListener('resize',layoutAll);
+if(document.fonts&&document.fonts.ready)document.fonts.ready.then(function(){layoutAll();checkPages()});
+applySrc();checkPages();updUR();
+})();
+</script>
+</body>
+</html>

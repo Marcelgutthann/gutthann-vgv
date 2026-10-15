@@ -58,6 +58,10 @@ Beim Start jeder Analyse fragt der Skill, WER sich bewirbt:
 
 Bei AIP und ARGE folgt eine zweite Frage nach dem Namen der anderen Gesellschaft, danach immer die Frage, ob es relevante und zu beachtende Referenzen oder Informationen gibt. Die Antworten werden pro Projekt in `Claude/bewerbung.json` gespeichert (Re-Runs fragen nicht erneut) und steuern ein konstellationsspezifisches Suchprofil aus `vgv-analyse_tools/bewerberprofile/`: Zulassung der Konstellation, Bewerbergemeinschaftserklaerung, gesamtschuldnerische Haftung, Eignungsleihe, wessen Referenzen zaehlen, Nachweise je Mitglied usw.
 
+## Referenzblatt im Hausstil (Skill `referenzblatt`, ab v1.3)
+
+Sagt man "mach mir im Projekt X ein Referenzblatt" oder "bau die Referenz um fuer eine Holzbau-Bewerbung", greift der Skill `referenzblatt`. Er fragt zuerst nach **Seitenzahl** (1-3), **Fokus** (z. B. Holzbau, Sanierung im Betrieb) und **Verfahren**, sammelt die Fakten aus Referenzdatenbank, Projektordner und Bildarchiv und fuellt die feste Vorlage `skills/referenzblatt/vorlage.html` (Layout der GHIW-Objektdatenblaetter). `bauen.py` bettet Logo und Bilder ein, druckt das PDF und prueft Platzhalter, Bildpfade, Textueberlauf und Seitenzahl - erst bei "Alle Pruefungen gruen" ist das Blatt fertig. Ist ein Fokus im Projekt nicht belegt, wird nichts erfunden, sondern es werden passendere Projekte vorgeschlagen.
+
 ## Verfuegbare Rollen-Profile
 
 In `vgv-analyse_tools/profiles/`:
