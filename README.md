@@ -2,6 +2,10 @@
 
 > Plugin fuer Claude Code. Automatische Vertragsrisiko- und VGV-Bewertung fuer Architektur- und Planungsbueros bei oeffentlichen Vergabeverfahren.
 
+## GHIW-Weg ab v1.5 (02.11.2026)
+
+`/vgv` bzw. der Skill `vgv-verfahren` ist nur noch ein Zeiger auf das GHIW-Board (`vorlage vgv`): Die Person holt die Unterlagen selbst (competitionline, Portal) und gibt sie in der Sitzung ab. Claude klaert im Auftakt Verfahren, Fristen und Konstellation, legt den Ordner unter `N:\13. VGV\2-Laufende VgV` an, legt die Karte im VgV-Radar an (`vgv_karte_anlegen`), analysiert in der Sitzung und traegt das Ergebnis an der Karte ein (`vgv_karte_setzen`, Kommentar, Unterpunkte). Nachtraege laufen ueber `vorlage vgv, teil nachtrag`. Die Analyse-Anleitung unten bleibt die Quelle; das Board laedt sie von hier.
+
 ## Was es macht
 
 Wenn du in einem Projektordner mit VGV-Unterlagen `/vgv` eintippst, durchsucht Claude:
